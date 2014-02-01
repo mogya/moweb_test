@@ -9,6 +9,6 @@ class Didyoumean < SaucelabsTestCasePC
     @browser.find_element(:id, "input_keyword").send_keys "赤坂駅"
     @browser.find_element(:id, "keyword_submit").click
     assert_match /^[\s\S]*赤坂[\s\S]*$/, @browser.title
-    verify { assert element_present?(:xpath, "//*[@value =\"赤坂駅(福岡県福岡市中央区)\"]") }
+    assert element_present?(:xpath, "//*[@value =\"赤坂駅(福岡市営１号線)\"]")
   end
 end
