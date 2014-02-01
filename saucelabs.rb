@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require 'bundler/setup'
 require "rubygems"
 require "selenium-webdriver"
 gem "test-unit"
