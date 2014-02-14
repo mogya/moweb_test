@@ -34,49 +34,95 @@ end
 class SaucelabsTestCasePC < SaucelabsTestCase
   def create_browser
     browser_env = ENV["BROWSER"]
-    cap = nil
+    caps = nil
     case browser_env
     when "win_ie6"
-      cap = Selenium::WebDriver::Remote::Capabilities.internet_explorer
-      cap.platform = 'Windows XP'
-      cap.version = '6'
-      cap[:name] = "WindowsXP IE6"
+      caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
+      caps.platform = 'Windows XP'
+      caps.version = '6'
+      caps[:name] = "WindowsXP IE6"
     when "win_ie7", nil
-      cap = Selenium::WebDriver::Remote::Capabilities.internet_explorer
-      cap.platform = 'Windows XP'
-      cap.version = '7'
-      cap[:name] = "WindowsXP IE7"
+      caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
+      caps.platform = 'Windows XP'
+      caps.version = '7'
+      caps[:name] = "WindowsXP IE7"
     when "win_ie_latest"
-      cap = Selenium::WebDriver::Remote::Capabilities.internet_explorer
-      cap.platform = 'Windows 8.1'
-      cap.version = '11'
-      cap[:name] = "Windows8.1 IE11"
+      caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
+      caps.platform = 'Windows 8.1'
+      caps.version = '11'
+      caps[:name] = "Windows8.1 IE11"
     when /\Awin_ff/
-      cap = Selenium::WebDriver::Remote::Capabilities.firefox
-      cap.platform = 'Windows 8.1'
-      cap.version = '26'
-      cap[:name] = "Windows8.1 firefox26"
+      caps = Selenium::WebDriver::Remote::Capabilities.firefox
+      caps.platform = 'Windows 8.1'
+      caps.version = '26'
+      caps[:name] = "Windows8.1 firefox26"
     when /\Awin_chrome/
-      cap = Selenium::WebDriver::Remote::Capabilities.chrome
-      cap.platform = 'Windows 8.1'
-      cap.version = '31'
-      cap[:name] = "Windows8.1 Chrome31"
+      caps = Selenium::WebDriver::Remote::Capabilities.chrome
+      caps.platform = 'Windows 8.1'
+      caps.version = '31'
+      caps[:name] = "Windows8.1 Chrome31"
     when /\Amac_chrome/
-      cap = Selenium::WebDriver::Remote::Capabilities.chrome
-      cap.platform = 'OS X 10.9'
-      cap.version = '31'
-      cap[:name] = "Mac OSX10.9 Chrome31"
+      caps = Selenium::WebDriver::Remote::Capabilities.chrome
+      caps.platform = 'OS X 10.9'
+      caps.version = '31'
+      caps[:name] = "Mac OSX10.9 Chrome31"
     when /\Amac_safari/
-      cap = Selenium::WebDriver::Remote::Capabilities.safari
-      cap.platform = 'OS X 10.9'
-      cap.version = '7'
-      cap[:name] = "Mac OSX10.9 Safari7"
+      caps = Selenium::WebDriver::Remote::Capabilities.safari
+      caps.platform = 'OS X 10.9'
+      caps.version = '7'
+      caps[:name] = "Mac OSX10.9 Safari7"
     end
-    raise "invalid browser: <#{browser_env.inspect}>" unless (cap)
-    @browser_name = cap[:name]
+    raise "invalid browser: <#{browser_env.inspect}>" unless (caps)
+    @browser_name = caps[:name]
     @browser = Selenium::WebDriver.for(
       :remote,
       :url => @remote_driver_url,
-      :desired_capabilities => cap)
+      :desired_capabilities => caps)
+  end
+end
+
+class SaucelabsTestCaseSP < SaucelabsTestCase
+  def create_browser
+    browser_env = ENV["BROWSER"]
+    caps = nil
+    case browser_env
+    when /\AiOS7_landscape/
+      caps = Selenium::WebDriver::Remote::Capabilities.iphone
+      caps.platform = 'OS X 10.9'
+      caps.version = '7'
+      caps['device-orientation'] = 'landscape'
+      caps[:name] = "iOS7_landscape"
+    when /\AiOS7/,/\AiOS7_portrait/,nil
+      caps = Selenium::WebDriver::Remote::Capabilities.iphone
+      caps.platform = 'OS X 10.9'
+      caps.version = '7'
+      caps['device-orientation'] = 'portrait'
+      caps[:name] = "iOS7_portrait"
+    when /\AiOS6/,/\AiOS6_portrait/
+      caps = Selenium::WebDriver::Remote::Capabilities.iphone
+      caps.platform = 'OS X 10.8'
+      caps.version = '6.1'
+      caps['device-orientation'] = 'portrait'
+      caps[:name] = "iOS6_portrait"
+    when /\AAndroid/
+      caps = Selenium::WebDriver::Remote::Capabilities.android
+      caps.platform = 'Linux'
+      caps.version = '4.0'
+      caps['device-orientation'] = 'portrait'
+      caps[:name] = "Android4.0"
+    when /\AAndroid_tablet/
+      caps = Selenium::WebDriver::Remote::Capabilities.android
+      caps.platform = 'Linux'
+      caps.version = '4.0'
+      caps['device-type'] = 'tablet'
+      caps['device-orientation'] = 'portrait'
+      caps[:name] = "Android4.0(tablet)"
+    end
+    raise "invalid browser: <#{browser_env.inspect}>" unless (caps)
+    @browser_name = caps[:name]
+    @browser = Selenium::WebDriver.for(
+      :remote,
+      :url => @remote_driver_url,
+      :desired_capabilities => caps)
   end
 end
