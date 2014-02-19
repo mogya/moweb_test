@@ -6,8 +6,6 @@ gem "test-unit"
 require "test/unit"
 require 'ci/reporter/rake/test_unit_loader'
 
-ENV['TEST_ENV_NUMBER'] ||= '4'
-
 module HtmlTestSuppeter
   def element_present?(how, what)
     @browser.find_element(how, what)
