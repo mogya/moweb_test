@@ -36,6 +36,7 @@ class SaucelabsTestCasePC < SaucelabsTestCase
   def create_browser
     browser_env = ENV["BROWSER"]
     caps = nil
+    # see https://saucelabs.com/platforms for these settings.
     case browser_env
     when "win_ie6"
       caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
@@ -79,6 +80,7 @@ class SaucelabsTestCasePC < SaucelabsTestCase
       :remote,
       :url => @remote_driver_url,
       :desired_capabilities => caps)
+    @browser.manage.timeouts.implicit_wait = 10 
   end
 end
 
@@ -86,6 +88,7 @@ class SaucelabsTestCaseSP < SaucelabsTestCase
   def create_browser
     browser_env = ENV["BROWSER"]
     caps = nil
+    # see https://saucelabs.com/platforms for these settings.
     case browser_env
     when /\AiOS7_landscape/
       caps = Selenium::WebDriver::Remote::Capabilities.iphone
@@ -93,7 +96,7 @@ class SaucelabsTestCaseSP < SaucelabsTestCase
       caps.version = '7'
       caps['device-orientation'] = 'landscape'
       caps[:name] = "iOS7_landscape"
-    when /\AiOS7/,/\AiOS7_portrait/,nil
+    when /\AiOS7/,/\AiOS7_portrait/
       caps = Selenium::WebDriver::Remote::Capabilities.iphone
       caps.platform = 'OS X 10.9'
       caps.version = '7'
@@ -105,7 +108,7 @@ class SaucelabsTestCaseSP < SaucelabsTestCase
       caps.version = '6.1'
       caps['device-orientation'] = 'portrait'
       caps[:name] = "iOS6_portrait"
-    when /\AAndroid/
+    when /\AAndroid/,nil
       caps = Selenium::WebDriver::Remote::Capabilities.android
       caps.platform = 'Linux'
       caps.version = '4.0'
@@ -125,5 +128,6 @@ class SaucelabsTestCaseSP < SaucelabsTestCase
       :remote,
       :url => @remote_driver_url,
       :desired_capabilities => caps)
+    @browser.manage.timeouts.implicit_wait = 10 
   end
 end
