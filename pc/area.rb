@@ -7,9 +7,9 @@ class Area < SaucelabsTestCasePC
     @browser.get(@base_url + "/area/")
     assert element_present?(:link, "京都府")
     @browser.find_element(:link, "京都府").click
-    assert element_present?(:css, 'input[value="三条駅"]')
-    @browser.find_element(:css, 'input[value="三条駅"]').click
-    assert_match /三条駅/, @browser.title
+    assert element_present?(:css, 'input[value="太秦駅"]')
+    @browser.find_element(:css, 'input[value="太秦駅"]').click
+    assert_match /太秦駅/, @browser.title
   end
   def test_area_tokyo
     @browser.get(@base_url + "/area/")
