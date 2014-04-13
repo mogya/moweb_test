@@ -1,10 +1,14 @@
 # -*- encoding: utf-8 -*-
 require 'bundler/setup'
 require "rubygems"
+require "yaml"
 require "selenium-webdriver"
 gem "test-unit"
 require "test/unit"
 require 'ci/reporter/rake/test_unit_loader'
+
+$motestdir = File.expand_path(File.dirname(__FILE__)) unless defined?($motestdir)
+$saucelabs_config = YAML.load_file($motestdir+'/config/saucelabs.yml') unless defined?($saucelabs_config)
 
 module HtmlTestSuppeter
   def element_present?(how, what)
@@ -18,7 +22,6 @@ end
 class SaucelabsTestCase < Test::Unit::TestCase
   include HtmlTestSuppeter
   def initialize *args
-    @remote_driver_url = "http://mogya:0fab1600-e18f-4a1d-9994-bb6bea67e165@ondemand.saucelabs.com:80/wd/hub".freeze
     @base_url = "http://oasis.mogya.com/".freeze
     super
   end
@@ -32,7 +35,14 @@ class SaucelabsTestCase < Test::Unit::TestCase
   end
 end
 
-class SaucelabsTestCasePC < SaucelabsTestCase
+module LocalBrowserCreater
+  def create_browser
+    @browser_name = 'firefox(local)'
+    @browser = Selenium::WebDriver.for :firefox
+    @browser.manage.timeouts.implicit_wait = 20
+  end
+end
+module PCBrowserCreater
   def create_browser
     browser_env = ENV["BROWSER"]
     caps = nil
@@ -78,13 +88,17 @@ class SaucelabsTestCasePC < SaucelabsTestCase
     @browser_name = caps[:name]
     @browser = Selenium::WebDriver.for(
       :remote,
-      :url => @remote_driver_url,
+      :url => $saucelabs_config['remote_driver_url'],
       :desired_capabilities => caps)
-    @browser.manage.timeouts.implicit_wait = 10 
+    @browser.manage.timeouts.implicit_wait = 20
   end
 end
 
-class SaucelabsTestCaseSP < SaucelabsTestCase
+class SaucelabsTestCasePC < SaucelabsTestCase
+  include PCBrowserCreater
+end
+
+module SmartphoneBrowserCreater
   def create_browser
     browser_env = ENV["BROWSER"]
     caps = nil
@@ -126,8 +140,21 @@ class SaucelabsTestCaseSP < SaucelabsTestCase
     @browser_name = caps[:name]
     @browser = Selenium::WebDriver.for(
       :remote,
-      :url => @remote_driver_url,
+      :url => $saucelabs_config['remote_driver_url'],
       :desired_capabilities => caps)
-    @browser.manage.timeouts.implicit_wait = 10 
+    @browser.manage.timeouts.implicit_wait = 20
   end
 end
+
+class SaucelabsTestCaseSP < SaucelabsTestCase
+  include SmartphoneBrowserCreater
+end
+
+=begin
+load "saucelabs.rb"
+include LocalBrowserCreater ## test with local firefox browser.
+# include PCBrowserCreater ## test with saucelab remote browser.
+@base_url = "http://oasis.mogya.com/".freeze
+create_browser
+@browser.get(@base_url + "/contrib/")
+=end
