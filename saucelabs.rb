@@ -53,10 +53,15 @@ module PCBrowserCreater
       caps.platform = 'Windows XP'
       caps.version = '6'
       caps[:name] = "WindowsXP IE6"
-    when "win_ie7", nil
+    when "win_ie7"
       caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
       caps.platform = 'Windows XP'
       caps.version = '7'
+      caps[:name] = "WindowsXP IE7"
+    when "win_ie8", nil
+      caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
+      caps.platform = 'Windows XP'
+      caps.version = '8'
       caps[:name] = "WindowsXP IE7"
     when "win_ie_latest"
       caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
