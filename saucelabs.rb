@@ -119,7 +119,7 @@ end
 
 module SmartphoneBrowserCreater
   def create_browser(test_name='')
-    browser_env = ENV["BROWSER"].downcase
+    browser_env = ENV["BROWSER"].downcase if (ENV["BROWSER"])
     caps = nil
     # see https://saucelabs.com/platforms for these settings.
     case browser_env
