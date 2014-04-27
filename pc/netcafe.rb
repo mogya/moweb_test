@@ -9,6 +9,7 @@ class Netcafe < SaucelabsTestCasePC
     @browser.find_element(:id, "input_keyword").clear
     @browser.find_element(:id, "input_keyword").send_keys "新宿駅"
     @browser.find_element(:id, "keyword_submit").click
+    wait_until(/^[\s\S]*新宿[\s\S]*$/){ @browser.title }
     assert_match(/^[\s\S]*新宿[\s\S]*$/, @browser.title)
 
     #デフォルトでネットカフェは非表示

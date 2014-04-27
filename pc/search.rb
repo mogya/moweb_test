@@ -11,6 +11,7 @@ class Search < SaucelabsTestCasePC
     element.clear
     element.send_keys "いわき駅"
     element.submit
+    wait_until(/^[\s\S]*いわき[\s\S]*$/){ @browser.title }
     assert_match(/^[\s\S]*いわき[\s\S]*$/, @browser.title, "%s title match of %s"%['search1',@browser_name])
 
   end
