@@ -2,12 +2,14 @@
 $:.unshift File.dirname(__FILE__)+'/../'
 require "saucelabs.rb"
 
-class Notfound < SaucelabsTestCaseSP  
+class Notfound < SaucelabsTestCaseSP
   def test_notfound
-    @browser.get(@base_url + "/sp/")
-    @browser.find_element(:id, "input_keyword").clear
-    @browser.find_element(:id, "input_keyword").send_keys "そんな名前の駅などないのに"
-    @browser.find_element(:id, "button_search_bystation").click
-    assert_match /^[\s\S]*Error[\s\S]*$/, @browser.title
+    create_browser('notfound '+__FILE__)
+    @browser.get(@base_url + "sp/")
+    @browser.execute_script('$("#input_keyword").val("そんな名前の駅などないのに");')
+    # @browser.find_element(:id, "button_search_bystation").submit
+    @browser.execute_script( %Q{ jQuery("#form_search_bystation").submit(); } )
+    wait_until(/^[\s\S]*Error[\s\S]*$/){ @browser.title }
+    assert_match(/^[\s\S]*Error[\s\S]*$/, @browser.title)
   end
 end

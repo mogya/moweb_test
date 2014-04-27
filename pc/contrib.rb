@@ -4,6 +4,7 @@ require "saucelabs.rb"
 
 class Contrib < SaucelabsTestCasePC
   def test_alert
+    create_browser('alert '+__FILE__)
     @browser.get(@base_url + "/contrib/")
     assert_match( /^[\s\S]*電源情報の投稿[\s\S]*$/, @browser.title)
 
@@ -13,6 +14,7 @@ class Contrib < SaucelabsTestCasePC
   end
 
   def test_cookie
+    create_browser('cookie '+__FILE__)
     @browser.get(@base_url + "/contrib/")
 
     @browser.find_element(:id, "field_user_name").send_keys "selenium test script"
@@ -23,14 +25,18 @@ class Contrib < SaucelabsTestCasePC
 
     cookie = @browser.manage.cookie_named('mo_user')
     assert_not_nil( cookie , 'submitすると名前やメールアドレスがcookieに保存される' )
-    cookie[:value].sub!('selenium','cookie')
-    @browser.manage.add_cookie(cookie)
-    @browser.get(@base_url + "/contrib/")
 
-    assert_match( "cookie test script", @browser.find_element(:id, "field_user_name").attribute('value') )
+    @browser.get(@base_url + "/contrib/")
+    assert_match(
+       "selenium test script",
+       @browser.find_element(:id, "field_user_name").attribute('value'),
+       'cookieがあれば名前が自動的に入力される'
+    )
   end
 
   def test_doyoumean
+    create_browser('doyoumean '+__FILE__)
+
     @browser.get(@base_url + "/contrib/")
     @browser.find_element(:id, "field_store_tel").send_keys "03-5771-1117"
     @browser.execute_script('$("#field_store_tel").change()')
