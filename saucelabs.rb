@@ -76,7 +76,7 @@ module PCBrowserCreater
       caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
       caps.platform = 'Windows XP'
       caps.version = '8'
-      caps[:name] = "WinXP IE7 "+test_name
+      caps[:name] = "WinXP IE8 "+test_name
     when "win_ie_latest"
       caps = Selenium::WebDriver::Remote::Capabilities.internet_explorer
       caps.platform = 'Windows 8.1'
@@ -93,15 +93,15 @@ module PCBrowserCreater
       caps.version = '31'
       caps[:name] = "Win8.1 Chrome31 "+test_name
     when /\Amac_chrome/
-      caps = Selenium::WebDriver::Remote::Capabilities.chrome
-      caps.platform = 'OS X 10.9'
-      caps.version = '31'
-      caps[:name] = "MacX10.9 Chrome31 "+test_name
+      # caps = Selenium::WebDriver::Remote::Capabilities.chrome
+      # caps.platform = 'OS X 10.9'
+      # caps.version = '31'
+      # caps[:name] = "MacX10.9 Chrome31 "+test_name
     when /\Amac_safari/
-      caps = Selenium::WebDriver::Remote::Capabilities.safari
-      caps.platform = 'OS X 10.9'
-      caps.version = '7'
-      caps[:name] = "MacX10.9 Safari7 "+test_name
+      # caps = Selenium::WebDriver::Remote::Capabilities.safari
+      # caps.platform = 'OS X 10.9'
+      # caps.version = '7'
+      # caps[:name] = "MacX10.9 Safari7 "+test_name
     end
     raise "invalid browser: <#{browser_env.inspect}>" unless (caps)
     @browser_name = caps[:name]
@@ -123,25 +123,25 @@ module SmartphoneBrowserCreater
     caps = nil
     # see https://saucelabs.com/platforms for these settings.
     case browser_env
-    when /\Aios\z/
-      caps = Selenium::WebDriver::Remote::Capabilities.iphone
-      caps['device-orientation'] = 'portrait'
-      caps[:name] = "iOS "+test_name
-    when /\Aios7/,/\Aios7_portrait/
-      caps = Selenium::WebDriver::Remote::Capabilities.iphone
-      caps.version = '7'
-      caps['device-orientation'] = 'portrait'
-      caps[:name] = "iOS7_portrait "+test_name
-    when /\Aios7_landscape/
-      caps = Selenium::WebDriver::Remote::Capabilities.iphone
-      caps.version = '7'
-      caps['device-orientation'] = 'landscape'
-      caps[:name] = "iOS7_landscape "+test_name
-    when /\Aios6/,/\Aios6_portrait/
-      caps = Selenium::WebDriver::Remote::Capabilities.iphone
-      caps.version = '6.1'
-      caps['device-orientation'] = 'portrait'
-      caps[:name] = "iOS6_portrait "+test_name
+    # when /\Aios\z/
+    #   caps = Selenium::WebDriver::Remote::Capabilities.iphone
+    #   caps['device-orientation'] = 'portrait'
+    #   caps[:name] = "iOS "+test_name
+    # when /\Aios7/,/\Aios7_portrait/
+    #   caps = Selenium::WebDriver::Remote::Capabilities.iphone
+    #   caps.version = '7'
+    #   caps['device-orientation'] = 'portrait'
+    #   caps[:name] = "iOS7_portrait "+test_name
+    # when /\Aios7_landscape/
+    #   caps = Selenium::WebDriver::Remote::Capabilities.iphone
+    #   caps.version = '7'
+    #   caps['device-orientation'] = 'landscape'
+    #   caps[:name] = "iOS7_landscape "+test_name
+    # when /\Aios6/,/\Aios6_portrait/
+    #   caps = Selenium::WebDriver::Remote::Capabilities.iphone
+    #   caps.version = '6.1'
+    #   caps['device-orientation'] = 'portrait'
+    #   caps[:name] = "iOS6_portrait "+test_name
     when /\Aandroid\z/,nil
       caps = Selenium::WebDriver::Remote::Capabilities.android
       caps.version = '4.0'

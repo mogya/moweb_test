@@ -18,8 +18,11 @@ class Contrib < SaucelabsTestCasePC
     @browser.get(@base_url + "/contrib/")
 
     @browser.find_element(:id, "field_user_name").send_keys "selenium test script"
+    @browser.execute_script(%Q{ jQuery("#field_user_name").blur(); })
     @browser.find_element(:id, "field_user_mail").send_keys "test@example.com"
+    @browser.execute_script(%Q{ jQuery("#field_user_mail").blur(); })
     @browser.find_element(:id, "field_user_agree").click()
+    @browser.execute_script(%Q{ jQuery("#field_user_agree").blur(); })
     @browser.find_element(:id, "button_form_submit").click
     assert(@browser.find_element(:id, "dialog_thankyou").displayed?,'submitするとありがとうポップアップを表示')
 
