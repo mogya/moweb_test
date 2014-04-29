@@ -30,6 +30,7 @@ class Contrib < SaucelabsTestCasePC
     assert_not_nil( cookie , 'submitすると名前やメールアドレスがcookieに保存される' )
 
     @browser.get(@base_url + "/contrib/")
+    @browser.execute_script(%Q{ $("#field_user_url").focus(); }) # screencastで結果を目視するためにスクロールさせておく
     assert_match(
        "selenium test script",
        @browser.find_element(:id, "field_user_name").attribute('value'),
