@@ -24,6 +24,7 @@ class Contrib < SaucelabsTestCasePC
     @browser.find_element(:id, "field_user_agree").click()
     @browser.execute_script(%Q{ jQuery("#field_user_agree").blur(); })
     @browser.find_element(:id, "button_form_submit").click
+    wait_until{ @browser.find_element(:id, "dialog_thankyou").displayed? }
     assert(@browser.find_element(:id, "dialog_thankyou").displayed?,'submitするとありがとうポップアップを表示')
 
     cookie = @browser.manage.cookie_named('mo_user')
