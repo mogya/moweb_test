@@ -44,6 +44,7 @@ class Contrib < SaucelabsTestCasePC
     @browser.get(@base_url + "/contrib/")
     @browser.find_element(:id, "field_store_tel").send_keys "03-5771-1117"
     @browser.execute_script('$("#field_store_tel").change()')
+    wait_until{ @browser.find_element(:id, "dialog_doyoumean").displayed? }
     assert(@browser.find_element(:id, "dialog_doyoumean").displayed?,'既存のデータを入力しようとすると候補を表示')
   end
 end
